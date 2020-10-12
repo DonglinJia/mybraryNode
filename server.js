@@ -6,10 +6,14 @@ const express = require('express')
 const app = express()
 const expressLayouts = require('express-ejs-layouts')
 const bodyParser = require('body-parser')
+// take a post form  to the server with a special parameter to tell us that we doing a put/delete request
+// then our sever will be smart enough to call delete/put based on that specific parameter
+const methodOverride = require('method-override')
 
 const indexRouter = require('./routers/index')
 const authorRouter = require('./routers/authors')
 const bookRouter = require('./routers/books')
+
 
 
 app.set('view engine', 'ejs')
@@ -19,6 +23,7 @@ app.set('views', __dirname + '/views')
 app.set('layout', 'layouts/layout')
 app.use(expressLayouts)
 app.use(express.static('public'))
+app.use(methodOverride('_method'))
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: false }))
 
 const mongoose = require('mongoose')
